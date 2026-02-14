@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Download Payload</title>
+  <script>
+    // Take parameter from URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    // redirect to payload.sh
+    if (id === "1") {
+      window.location.href = "/payload.sh";
+    }
+  </script>
+</head>
+<body>
+  <h1></h1>
+</body>
+</html>
