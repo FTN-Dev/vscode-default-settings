@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "1"
+        }
+      ],
+      "destination": "/payload.sh",
+      "permanent": false
+    }
+  ]
+}
