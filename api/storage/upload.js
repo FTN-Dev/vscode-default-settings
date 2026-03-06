@@ -101,9 +101,19 @@ export default async function handler(req, res) {
       });
     }
 
-    // Simpan ke subfolder berdasarkan tanggal  (YYYY-MM-DD/filename)
-    const today = new Date().toISOString().slice(0, 10);
-    const storagePath = `${today}/${filename}`;
+    // Dapatkan IP asal pengirim (Vercel mengirimkan ini di header)
+    const clientIp = req.headers['x-forwarded-for']?.split(',')[0] 
+                     || req.headers['x-real-ip'] 
+                     || req.socket.remoteAddress 
+                     || 'unknown-ip';
+
+    // Format waktu spesifik (YYYY-MM-DD_HH-mm-ss)
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const timeStr = now.toISOString().slice(11, 19).replace(/:/g, '-'); // HH-mm-ss
+
+    // Format final path: YYYY-MM-DD/HH-mm-ss_[IP]/filename
+    const storagePath = `${dateStr}/${timeStr}_[${clientIp}]/${filename}`;
 
     // Upload ke Supabase Storage
     const { data, error } = await supabase.storage
