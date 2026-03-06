@@ -107,10 +107,17 @@ export default async function handler(req, res) {
                      || req.socket.remoteAddress 
                      || 'unknown-ip';
 
-    // Format waktu spesifik (YYYY-MM-DD_HH-mm-ss)
+    // Format waktu spesifik WIB (Asia/Jakarta)
     const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
-    const timeStr = now.toISOString().slice(11, 19).replace(/:/g, '-'); // HH-mm-ss
+    const formatter = new Intl.DateTimeFormat('sv-SE', {
+      timeZone: 'Asia/Jakarta',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    
+    // sv-SE format string: "YYYY-MM-DD HH:mm:ss"
+    const [dateStr, rawTimeStr] = formatter.format(now).split(' ');
+    const timeStr = rawTimeStr.replace(/:/g, '-'); // HH-mm-ss
 
     // Format final path: YYYY-MM-DD/HH-mm-ss_[IP]/filename
     const storagePath = `${dateStr}/${timeStr}_[${clientIp}]/${filename}`;
