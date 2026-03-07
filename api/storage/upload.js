@@ -119,8 +119,8 @@ export default async function handler(req, res) {
     const [dateStr, rawTimeStr] = formatter.format(now).split(' ');
     const timeStr = rawTimeStr.replace(/:/g, '-'); // HH-mm-ss
 
-    // Format final path: YYYY-MM-DD/HH-mm-ss_[IP]/filename
-    const storagePath = `${dateStr}/${timeStr}_[${clientIp}]/${filename}`;
+    // Format final path: YYYY-MM-DD/HH-mm-ss_ip-192.168.1.1/filename
+    const storagePath = `${dateStr}/${timeStr}_ip-${clientIp}/${filename}`;
 
     // Upload ke Supabase Storage
     const { data, error } = await supabase.storage
